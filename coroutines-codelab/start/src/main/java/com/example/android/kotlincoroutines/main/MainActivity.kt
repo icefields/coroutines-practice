@@ -20,11 +20,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.UiThread
+import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.ViewModelProvider
 import com.example.android.kotlincoroutines.R
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.coroutineScope
 
 /**
  * Show layout.activity_main and setup data binding.
@@ -47,8 +51,7 @@ class MainActivity : AppCompatActivity() {
         // Get MainViewModel by passing a database to the factory
         val database = getDatabase(this)
         val repository = TitleRepository(getNetworkService(), database.titleDao)
-        val viewModel = ViewModelProvider(this, MainViewModel.FACTORY(repository))
-                .get(MainViewModel::class.java)
+        val viewModel = ViewModelProvider(this, MainViewModel.FACTORY(repository))[MainViewModel::class.java]
 
         // When rootLayout is clicked call onMainViewClicked in ViewModel
         rootLayout.setOnClickListener {
@@ -80,5 +83,24 @@ class MainActivity : AppCompatActivity() {
                 viewModel.onSnackbarShown()
             }
         }
+
+    }
+
+    @WorkerThread
+    suspend fun sleepForAwhileCaller(){
+        awakeNow(
+            sleepForAwhile()
+        )
+    }
+
+    @WorkerThread
+    private suspend fun sleepForAwhile(): Boolean {
+        Thread.sleep(6666)
+        return true
+    }
+
+    //@UiThread
+    private fun awakeNow(what: Boolean) {
+        Toast.makeText(this, "done", Toast.LENGTH_LONG).show()
     }
 }
