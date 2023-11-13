@@ -45,6 +45,10 @@ fun getNetworkService() = service
 interface MainNetwork {
     @GET("next_title.json")
     fun fetchNextTitle(): Call<String>
+
+    @GET("next_title.json")
+    suspend fun fetchNextTitleSuspend(): String
+
 }
 
 

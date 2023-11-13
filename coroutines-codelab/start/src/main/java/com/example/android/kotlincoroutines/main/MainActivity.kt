@@ -21,7 +21,7 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.UiThread
+import androidx.lifecycle.lifecycleScope
 import androidx.annotation.WorkerThread
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +29,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.android.kotlincoroutines.R
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Show layout.activity_main and setup data binding.
@@ -84,6 +85,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        lifecycleScope.launch {
+            sleepForAwhileCaller()
+        }
     }
 
     @WorkerThread
