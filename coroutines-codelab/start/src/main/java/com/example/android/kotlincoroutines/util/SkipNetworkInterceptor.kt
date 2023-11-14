@@ -16,6 +16,7 @@
 
 package com.example.android.kotlincoroutines.util
 
+import android.util.Log
 import com.google.gson.Gson
 import okhttp3.*
 
@@ -96,6 +97,7 @@ class SkipNetworkInterceptor: Interceptor {
      * ```
      */
     private fun makeOkResult(request: Request): Response {
+        Log.d("LUCI666", request.url().pathSegments()[0].toString())
         var nextResult = lastResult
         while (nextResult == lastResult) {
             nextResult = FAKE_RESULTS.random()
